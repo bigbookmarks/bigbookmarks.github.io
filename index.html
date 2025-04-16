@@ -17,18 +17,33 @@
         }
         a{
             text-decoration: none;
-            font-size: 36px;
+            font-size: 30px;
             font-weight: bold;
             color:slateblue;
-            border: gray solid 2px;
-            border-radius: 10px;
+            border-left: 3px #999999 solid;
+            border-bottom: 3px #999999 solid;
             padding: 10px;
         }
         a:visited{
             text-decoration: none;
-            font-size: 36px;
+            font-size: 30px;
             color:slateblue;
             font-weight: bold;
+        }
+        #menu a{
+            color:deeppink;
+            display: block;
+            border:none;
+        }
+        .backtomenu{
+            color: deeppink;
+            font-size: 30px;
+            border: none;
+        }
+        .backtomenu:visited{
+            color: deeppink;
+            font-size: 30px;
+            border: none;
         }
         h2{
             color: red;
@@ -47,7 +62,20 @@
         <h2>不要相信任何付费、加群、关注等信息，谨防上当受骗。</h2>
         <h1>感谢所有提供免费学习资源的人们！！！</h1>
         <hr style="margin-bottom:50px;"/>
+        <div id="menu">
+            <a href="#线上代码测试环境">线上代码测试环境</a>
+            <a href="#算法与数据结构">算法与数据结构</a>
+            <a href="#操作系统、数据库、编程语言">操作系统、数据库、编程语言</a>
+            <a href="#架构设计">架构设计</a>
+            <a href="#各类中间件">各类中间件</a>
+            <a href="#人工智能">人工智能</a>
+            <a href="#综合笔记、网络杂文类">综合笔记、网络杂文类</a>
+            <a href="#线上工具">线上工具</a>
+        </div>
         <ul>
+            <h1 id="线上代码测试环境">线上代码测试环境
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://onecompiler.com/" target="_blank">
                     onecompiler免登录代码测试环境
@@ -123,6 +151,9 @@
                     online-python免登录代码测试环境
                 </a>
             </li>
+            <h1 id="算法与数据结构">算法与数据结构
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://www.hello-algo.com/chapter_hello_algo/" target="_blank">
                     Hello 算法
@@ -208,6 +239,34 @@
                     Dotcpp编程题库
                 </a>
             </li>
+            <h1 id="操作系统、数据库、编程语言">操作系统、数据库、编程语言
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
+            <li>
+                <a href="https://zq99299.github.io/linux-tutorial/tutorial-basis/" target="_blank">
+                    Linux 系统教程（笔记）
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/mysql-tutorial/imooc-mysql8/" target="_blank">
+                    MySQL 系列教程（笔记）
+                </a>
+            </li>
+            <li>
+                <a href="https://hezhiqiang-book.gitbook.io/mysql/" target="_blank">
+                    MySQL 入门教程
+                </a>
+            </li>
+            <li>
+                <a href="https://relph1119.github.io/mysql-learning-notes/#/" target="_blank">
+                    MySQL 是怎样运行的：从根儿上理解 MySQL
+                </a>
+            </li>
+            <li>
+                <a href="https://jums.gitbook.io/mysql-shi-zhan-45-jiang" target="_blank">
+                    MySql实战45讲
+                </a>
+            </li>
             <li>
                 <a href="https://javabetter.cn/home.html" target="_blank">
                     二哥的Java进阶之路
@@ -221,6 +280,11 @@
             <li>
                 <a href="https://zq99299.github.io/java-tutorial/java/" target="_blank">
                     JAVA8官网笔记教程
+                </a>
+            </li>
+            <li>
+                <a href="https://zyb0408.github.io/gitbooks/javaguide/" target="_blank">
+                    JAVA相关笔记
                 </a>
             </li>
             <li>
@@ -289,8 +353,26 @@
                 </a>
             </li>
             <li>
+                <a href="https://jums.gitbook.io/36-lectures-on-golang" target="_blank">
+                    go语言核心36讲
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/note-book2/http-protocol/" target="_blank">
+                    透视 HTTP 协议
+                </a>
+            </li>
+            <h1 id="架构设计">架构设计
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
+            <li>
                 <a href="https://zq99299.github.io/note-book/imocc/design_pattern/#%E4%B8%BB%E5%9B%BE%E4%BB%8B%E7%BB%8D" target="_blank">
                     JAVA设计模式精讲
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/note-book2/monitor-tuning/#%E5%BF%85%E5%A4%87%E6%8E%A8%E8%8D%90" target="_blank">
+                    JAVA 生产环境下性能监控与调优详解
                 </a>
             </li>
             <li>
@@ -298,6 +380,29 @@
                     研磨设计模式
                 </a>
             </li>
+            <li>
+                <a href="https://zq99299.github.io/note-book/cache-pdp/" target="_blank">
+                    亿级流量电商详情页系统实战
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/note-architect/hc/" target="_blank">
+                    高并发系统设计 40 问
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/note-architect/ztc/" target="_blank">
+                    JAVA 架构师直通车
+                </a>
+            </li>
+            <li>
+                <a href="https://zq99299.github.io/note-book2/ddd/" target="_blank">
+                    DDD 实战课
+                </a>
+            </li>
+            <h1 id="各类中间件">各类中间件
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://zq99299.github.io/note-book/elasticsearch-core/" target="_blank">
                     elasticsearch 核心知识篇
@@ -309,53 +414,29 @@
                 </a>
             </li>
             <li>
-                <a href="https://zq99299.github.io/note-book/cache-pdp/" target="_blank">
-                    亿级流量电商详情页系统实战
-                </a>
-            </li>
-            <li>
-                <a href="https://zq99299.github.io/note-book2/monitor-tuning/#%E5%BF%85%E5%A4%87%E6%8E%A8%E8%8D%90" target="_blank">
-                    JAVA 生产环境下性能监控与调优详解
-                </a>
-            </li>
-            <li>
-                <a href="https://zq99299.github.io/note-book2/http-protocol/" target="_blank">
-                    透视 HTTP 协议
-                </a>
-            </li>
-            <li>
-                <a href="https://zq99299.github.io/note-book2/ddd/" target="_blank">
-                    DDD 实战课
-                </a>
-            </li>
-            <li>
                 <a href="https://zq99299.github.io/mq-tutorial/rabbitmq-ac/" target="_blank">
                     MQ 系列教程（笔记）
                 </a>
             </li>
-            <li>
-                <a href="https://zq99299.github.io/note-architect/hc/" target="_blank">
-                    高并发系统设计 40 问
-                </a>
-            </li>
+            <h1 id="人工智能">人工智能
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://zh.d2l.ai/chapter_preface/index.html" target="_blank">
                     动手学深度学习
                 </a>
             </li>
-            <li>
-                <a href="https://zq99299.github.io/linux-tutorial/tutorial-basis/" target="_blank">
-                    Linux 系统教程（笔记）
-                </a>
-            </li>
-            <li>
-                <a href="https://zq99299.github.io/mysql-tutorial/imooc-mysql8/" target="_blank">
-                    MySQL 系列教程（笔记）
-                </a>
-            </li>
+            <h1 id="综合笔记、网络杂文类">综合笔记、网络杂文类
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://www.ruanyifeng.com/blog/archives.html" target="_blank">
                     阮一峰的网络日志
+                </a>
+            </li>
+            <li>
+                <a href="https://www.oryoy.com/" target="_blank">
+                    云原生实践
                 </a>
             </li>
             <li>
@@ -363,6 +444,9 @@
                     CS-Notes 面试笔记
                 </a>
             </li>
+            <h1 id="线上工具">线上工具
+                <a class="backtomenu" href="#menu">Top^</a>
+            </h1>
             <li>
                 <a href="https://godbolt.org/" target="_blank">
                     Compiler Explorer
