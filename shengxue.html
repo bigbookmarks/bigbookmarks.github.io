@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>升学</title>
+    <script src="./dhtmlxgantt.js"></script>
+    <link href="./dhtmlxgantt.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            height: 40px;
+            line-height: 40px;
+            padding: 0 10px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        #gantt_container {
+            width: 100%;
+            height: calc(100% - 40px);
+        }
+
+        .gantt_tooltip {
+            font-size: 13px;
+            white-space: pre-line;
+        }
+
+        /* 手动绘制今日竖线容器 */
+        .custom-today-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #f56c6c;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        /* 加宽左侧任务名称列，防止文字被截断 */
+        .gantt_task_tree {
+            min-width: 260px;
+        }
+
+        /* 过期任务置灰样式 */
+        .gantt_task_line.task-expired .gantt_task_content,
+        .gantt_task_line.task-expired .gantt-task-bg {
+            background: #cccccc !important;
+            opacity: 0.75;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar">
+        <button onclick="goToToday()" style="padding: 4px 12px; cursor: pointer">
+            一键定位今日
+        </button>
+        <button id="toggleGrayBtn" onclick="toggleExpiredGray()" style="padding: 4px 12px; cursor: pointer">
+            关闭过期任务置灰
+        </button>
+        <span style="color: #666">提示：按住 Ctrl + 点击任务可打开详情链接</span>
+        <button onclick="gotoFile()" style="padding: 4px 12px; cursor: pointer">
+            相关文件
+        </button>
+    </div>
+    <div id="gantt_container"></div>
+
+    <script>
+        // 全局开关：默认开启过期任务置灰
+        let enableExpiredGray = false;
+        // 保存默认固定时间范围
+        const defaultStart = new Date("2025-09-01");
+        const defaultEnd = new Date("2026-10-01");
+
+        // 基础配置
+        gantt.locale.labels.section_task = "事项";
+        gantt.locale.labels.section_duration = "周期";
+        gantt.locale.labels.section_start = "开始";
+        gantt.locale.labels.section_end = "结束";
+        gantt.config.date_format = "%Y-%m-%d";
+        gantt.config.scale_unit = "month";
+        gantt.config.step = 1;
+        gantt.config.date_scale = "%m月";
+        gantt.config.fit_tasks = false;
+        gantt.config.show_tooltips = true;
+
+        gantt.config.show_task_cells = true;
+        gantt.config.task_text_inside = true;
+        gantt.config.tree_width = 280;
+        gantt.config.show_project_tasks = false;
+        gantt.config.show_today = false;
+
+        // 悬浮提示
+        gantt.config.tooltip_template = function (task) {
+            let tip = `【${task.text}】\n时间：${task.start_date} ~ ${task.end_date}\n${task.desc || ""}`;
+            if (task.url) tip += "\n👉按住Ctrl单击任务打开详情页面";
+            return tip;
+        };
+
+        // 动态根据开关决定是否添加过期灰色样式
+        gantt.templates.task_class = function (start, end, task) {
+            if (!enableExpiredGray) return "";
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const taskEndDate = new Date(end);
+            taskEndDate.setHours(0, 0, 0, 0);
+            if (taskEndDate < today) {
+                return "task-expired";
+            }
+            return "";
+        };
+
+        function gotoFile(){
+            window.open('./shengxuewenjian.html', '_blank');
+        }
+
+        // 切换过期任务置灰开关
+        function toggleExpiredGray() {
+            enableExpiredGray = !enableExpiredGray;
+            const btn = document.getElementById('toggleGrayBtn');
+            if (enableExpiredGray) {
+                btn.innerText = "关闭过期任务置灰";
+            } else {
+                btn.innerText = "开启过期任务置灰";
+            }
+            // 刷新甘特图任务样式，实时生效
+            gantt.refreshData();
+            // 重绘今日红线
+            drawTodayLine();
+        }
+
+        // 恢复默认固定时间视图
+        function resetTimeRange() {
+            gantt.config.fit_tasks = false;
+            gantt.setViewportDate(defaultStart, defaultEnd);
+            drawTodayLine();
+        }
+
+        // Ctrl+单击跳转链接
+        gantt.attachEvent("onTaskClick", function (taskId, e) {
+            const task = gantt.getTask(taskId);
+            if ((e.ctrlKey || e.metaKey) && task.url) {
+                window.open(task.url, "_blank");
+            }
+            return true;
+        });
+
+        // 屏蔽右键菜单
+        gantt.attachEvent("onContextMenu", function (taskId, linkId, e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // 一键定位今日
+        window.goToToday = function () {
+            const today = new Date();
+            gantt.showDate(today, "middle");
+            drawTodayLine();
+        };
+
+        // 绘制今日红色竖线
+        function drawTodayLine() {
+            let oldLine = document.querySelector(".custom-today-line");
+            if (oldLine) oldLine.remove();
+            const today = new Date();
+            const xPos = gantt.posFromDate(today);
+            const timePanel = gantt.$task_data;
+            let line = document.createElement("div");
+            line.className = "custom-today-line";
+            line.style.left = xPos + "px";
+            timePanel.appendChild(line);
+        }
+
+        const 活力红 = "#FF4757";
+        const 暖阳橙 = "#FF7F50";
+        const 柠檬黄 = "#FFD93D";
+        const 薄荷绿 = "#2ED573";
+        const 晴空青 = "#00D2D3";
+        const 亮蓝 = "#3742FA";
+        const 香芋紫 = "#A55EEA";
+        const 玫瑰粉 = "#FF6B9D";
+        const 豆沙绿 = "#DDA0DD";
+        const 天蓝 = "#74B9FF";
+        const 牛油果绿 = "#63D471";
+        const 浅陶橙 = "#FFA585";
+        const 灰紫 = "#9B9BCC";
+        const 奶油黄 = "#FFEAA7";
+        const 纯白 = "#FFFFFF";
+        const 浅灰 = "#F1F2F6";
+        const 深灰 = "#485460";
+        const 纯黑 = "#2D3436";
+        const 焦糖棕 = "#D35400";
+        const 藏青 = "#2C3E50";
+
+        const tasks = {
+            data: [
+                {
+                    id: 202701,
+                    text: "2027年普通高考",
+                    type: "project",
+                    color: 灰紫,
+                    url: "",
+                },
+                {
+                    id: 202702,
+                    text: "2027年对口升学",
+                    type: "project",
+                    color: 玫瑰粉,
+                    url: "",
+                },
+                {
+                    id: 202703,
+                    text: "2027年高职单招",
+                    type: "project",
+                    color: 天蓝,
+                    url: "",
+                },
+                {
+                    id: 202601,
+                    text: "2026年普通高考",
+                    type: "project",
+                    color: 灰紫,
+                    url: "",
+                },
+
+                {
+                    id: 20260101,
+                    text: "高考报名",
+                    parent: 202601,
+                    start_date: "2025-10-28",
+                    end_date: "2025-11-11",
+                    color: 灰紫,
+                    desc: "",
+                    url: "https://www.hebeea.edu.cn/c/2025-10-11/489220.html",
+                },
+
+                {
+                    id: 202602,
+                    text: "2026年对口升学",
+                    type: "project",
+                    color: 玫瑰粉,
+                    url: "",
+                },
+
+                {
+                    id: 20260201,
+                    text: "高考报名",
+                    parent: 202602,
+                    start_date: "2025-10-28",
+                    end_date: "2025-11-11",
+                    color: 玫瑰粉,
+                    desc: "",
+                    url: "https://www.hebeea.edu.cn/c/2025-10-11/489220.html",
+                },
+
+                {
+                    id: 202603,
+                    text: "2026年高职单招",
+                    type: "project",
+                    color: 天蓝,
+                    url: "",
+                },
+
+                {
+                    id: 20260301,
+                    text: "高考报名",
+                    parent: 202603,
+                    start_date: "2025-10-28",
+                    end_date: "2025-11-11",
+                    color: 天蓝,
+                    desc: "",
+                    url: "https://www.hebeea.edu.cn/c/2025-10-11/489220.html",
+                }
+            ],
+            links: [],
+        };
+
+        gantt.init("gantt_container");
+        gantt.parse(tasks);
+
+
+        setTimeout(() => {
+            goToToday();
+        }, 500);
+    </script>
+</body>
+</html>
